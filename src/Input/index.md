@@ -1,6 +1,6 @@
 ---
 nav:
-  title: Html5InputDemo
+  title: Html5Demo
   path: /components
 ---
 
