@@ -1,0 +1,21 @@
+.textarea {
+  height: 200px;
+  width: 300px;
+  padding: 4px;
+  border: 1px solid #888;
+  //   resize: vertical;
+  resize: both;
+  overflow: auto;
+}
+
+.textarea:empty:before {
+  content: attr(placeholder);
+  color: #bbb;
+}
+
+button {
+  margin-top: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
