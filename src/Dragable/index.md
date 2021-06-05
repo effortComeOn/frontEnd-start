@@ -4,11 +4,13 @@ nav:
   path: /components
 ---
 
+## Dragable
+
 Demo:
 
 ```tsx
 import React from 'react';
-import { DivTextarea } from 'frontEnd-start';
+import { Dragable } from 'frontEnd-start';
 
-export default () => <DivTextarea />;
+export default () => <Dragable />;
 ```

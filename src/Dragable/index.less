@@ -1,0 +1,29 @@
+.task {
+  display: flex;
+  justify-content: space-between;
+  .drag-list {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #333;
+    display: flex;
+    justify-content: start;
+  }
+
+  .drop {
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #333;
+  }
+  .drag-list,
+  .drop {
+    .drag {
+      width: 50px;
+      height: 20px;
+      background-color: aquamarine;
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 4px;
+    }
+  }
+}
