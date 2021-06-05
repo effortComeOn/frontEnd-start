@@ -4,7 +4,7 @@ nav:
   path: /components
 ---
 
-## Dragable
+## Dragable 拖放
 
 Demo:
 

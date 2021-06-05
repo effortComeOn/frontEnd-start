@@ -1,0 +1,28 @@
+@import '../style/index.less';
+.parent1 {
+  overflow: hidden;
+}
+
+.parent2 {
+  margin: 50px 0;
+  &:before {
+    content: '';
+    display: block;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+.div {
+  float: left;
+  height: 200px;
+  &:before {
+    content: '';
+    display: block;
+    clear: both;
+    visibility: hidden;
+  }
+}
+.div2 {
+  float: right;
+}
