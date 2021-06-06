@@ -58,7 +58,9 @@ export default () => {
               style={{ backgroundColor: item.bgColor }}
               id={item.id}
               draggable={true}
+              // 被拖拽开始时存下当前元素的id
               onDragStart={() => onDragStart(item.id)}
+              // 拖拽结束，将id清空
               onDragEnd={() => setActiveId('')}
             >
               {item.text}

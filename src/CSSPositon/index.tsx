@@ -57,6 +57,13 @@ export default () => {
           <div className="box">A</div>
         </div>
       </div>
+
+      <p>品字布局</p>
+      <div className="ping-wrapper">
+        <div className="block item-top">1</div>
+        <div className="block item-bottom1">2</div>
+        <div className="block item-bottom2">3</div>
+      </div>
     </div>
   );
 };

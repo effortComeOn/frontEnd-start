@@ -4,8 +4,6 @@ nav:
   path: /components
 ---
 
-## Input
-
 Demo:
 
 ```tsx
