@@ -28,7 +28,7 @@ const Login = React.forwardRef((props: LoginProps, ref) => {
 
   return (
     <div>
-      {initData.map((item) => {
+      {initData.map((item: string) => {
         return (
           <div key={item}>
             <span>{item}</span>

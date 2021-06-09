@@ -34,11 +34,11 @@ export default () => {
   const onDragStart = (id: any) => {
     setActiveId(id);
   };
-  const onDrop = (ev) => {
+  const onDrop = (ev: any) => {
     ev.persist();
     ev.target.appendChild(document.getElementById(activeId));
   };
-  const onDragOver = (e) => {
+  const onDragOver = (e: any) => {
     // 注意这里只使用这个函数，不用执行e.persist(); 否则无法执行后续的onDrop
     e.preventDefault();
   };
