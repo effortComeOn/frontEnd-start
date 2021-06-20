@@ -5,43 +5,17 @@ import React, {
   useImperativeHandle,
 } from 'react';
 import { Select } from 'antd';
-import { useRequest } from 'ahooks';
+import 'antd/dist/antd.min.css';
 import { ExclamationCircleFilled } from '@ant-design/icons';
-
-interface configProps {
-  level: number;
-  code: string;
-}
-interface selectListProps {
-  // 这里替换下字段哈，和昨天的题目有些许差异，但问题不大
-  code: string;
-  codeCn: string;
-}
-const dealConfig = (
-  selectConfigList: configProps[],
-  selectList: selectListProps[],
-) => {
-  const selectObj: any = {};
-  const fieldNameArr: any = [];
-  selectConfigList.forEach((config: any) => {
-    let level = config.level;
-    // 把前面优先级的 选择项保存下来
-    if (level == 1) selectObj[level] = selectList;
-    else selectObj[level] = addlevel(fieldNameArr, selectList);
-    fieldNameArr.push(config.fieldName);
-  });
-  return selectObj;
-};
-
-// 过滤已选则的filedList
-function addlevel(fieldNameArr: any, selectList: any) {
-  let newselectList = [...selectList];
-  newselectList = newselectList.filter((item: any, index: number) => {
-    return fieldNameArr.indexOf(item.fieldName) == -1;
-  });
-  return newselectList;
-}
-
+import {
+  initConfig,
+  initData,
+  configProps,
+  selectListProps,
+  dealConfig,
+  dealSelect,
+} from './utils';
+import './index.less';
 const { Option } = Select;
 
 // 排序
@@ -52,9 +26,9 @@ const SortPanel = React.forwardRef((props: any, ref) => {
     width: 11,
   };
   // 需要展示的 selectConfigList
-  const [selectConfigList, setselectConfigList] = useState([]);
+  const [selectConfigList, setselectConfigList] = useState<configProps[]>([]);
   // 下拉列表框数据源 selectList
-  const [selectList, setselectList] = useState([]);
+  const [selectList, setselectList] = useState<selectListProps[]>([]);
   // 下拉列表框 没一个优先级对应的数据源 selectListObj
   const [selectListObj, setselectListObj] = useState<any>({});
 
@@ -69,49 +43,32 @@ const SortPanel = React.forwardRef((props: any, ref) => {
     },
   }));
   // 联动，更改 下拉选择列表的数据源
-  const changeselectConfig = (selectConfig: any, selectList: any) => {
-    let obj = dealConfig(selectConfig, selectList);
-    // console.log('changeselectConfig setselectListObj', obj);
-    setselectListObj(obj);
+  const changeselectConfig = (
+    selectConfig: any,
+    selectList: any,
+    level?: number,
+  ) => {
+    let selectObj = dealConfig(selectConfig, selectList, selectListObj, level);
+    console.log('changeselectConfig setselectListObj', selectObj);
+    setselectListObj(selectObj);
   };
 
-  const queryManualReportFieldsConfig: any = useRequest(
-    {
-      url: '/Front/Cbooking/API/Cbooking/querySortConfig',
-      method: 'get',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-    },
-    {
-      manual: true,
-      throwOnError: true,
-      onSuccess: (data: any, params: any) => {
-        if (data.responseCode == 20000) {
-          // 设置selectConfigList
-          setselectConfigList(data.selectConfigList);
-          // 设置selectList
-          setselectList(data.selectList);
-          // 初始化下拉选择数据 处理
-          changeselectConfig(data.selectConfigList, data.selectList);
-        }
-      },
-    },
-  );
   useEffect(() => {
-    queryManualReportFieldsConfig.run();
+    // 设置selectConfigList
+    setselectConfigList(initConfig);
+    // 设置selectList
+    setselectList(initData);
+    // 初始化下拉选择数据 处理
+    changeselectConfig(initConfig, initData);
   }, []);
 
   // select 下拉列表触发事件，实现多级联动，即前面选中的项目后面不可以再选择
-  function selectListChange(value: string, level: any) {
-    let newselectConfigList = [...selectConfigList];
-    newselectConfigList.forEach((item: any, index: number) => {
-      if (level == item.level) item.fieldName = value;
-    });
+  function selectListChange(value: string, level: number) {
+    let newselectConfigList = dealSelect(value, level, selectConfigList);
     // 设置configList select后，值需要更新
     setselectConfigList(newselectConfigList);
     // 修改configList
-    changeselectConfig(newselectConfigList, selectList);
+    changeselectConfig(newselectConfigList, selectList, level);
   }
 
   // 添加优先级
@@ -126,26 +83,27 @@ const SortPanel = React.forwardRef((props: any, ref) => {
     }
     let newObj: any = { ...newselectConfigList[num] };
     newObj.level += 1;
-    newObj.fieldName = '';
+    newObj.code = '';
     newselectConfigList.push(newObj);
     setselectConfigList(newselectConfigList);
     // 联动，下拉选择列表的数据源
-    changeselectConfig(newselectConfigList, selectList);
+    changeselectConfig(newselectConfigList, selectList, newObj.level);
   }
 
   // 抽离select 组件，附上对应的数据源。
-  const SelectCom = (fieldName: any, level: any) => {
+  const SelectCom = (code: any, level: any) => {
     const selectListArr = selectListObj[level];
     return (
       <Select
-        defaultValue={fieldName}
+        defaultValue={code}
+        placeholder="请选择优先级"
         onChange={(val: string) => selectListChange(val, level)}
-        className="selectComponent"
+        className="select-component"
       >
         {selectListArr?.map((item: any, index: number) => {
           return (
-            <Option value={item.fieldName} key={`${item.fieldName}-${index}`}>
-              {item.fieldNameCn}
+            <Option value={item.code} key={`${item.code}-${index}`}>
+              {item.codeCn}
             </Option>
           );
         })}
@@ -178,10 +136,7 @@ const SortPanel = React.forwardRef((props: any, ref) => {
         return (
           <div className="selectList" key={selectConfigListItem.level}>
             <span className="level">第{selectConfigListItem.level}优先级</span>
-            {SelectCom(
-              selectConfigListItem.fieldName,
-              selectConfigListItem.level,
-            )}
+            {SelectCom(selectConfigListItem.code, selectConfigListItem.level)}
             {idx == selectConfigList.length - 1 ? (
               <span className="delete" onClick={() => deleteList(idx)}>
                 删除
