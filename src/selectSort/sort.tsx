@@ -95,7 +95,8 @@ const SortPanel = React.forwardRef((props: any, ref) => {
     const selectListArr = selectListObj[level];
     return (
       <Select
-        defaultValue={code}
+        // defaultValue={code}
+        value={code}
         placeholder="请选择优先级"
         onChange={(val: string) => selectListChange(val, level)}
         className="select-component"
@@ -137,7 +138,7 @@ const SortPanel = React.forwardRef((props: any, ref) => {
           <div className="selectList" key={selectConfigListItem.level}>
             <span className="level">第{selectConfigListItem.level}优先级</span>
             {SelectCom(selectConfigListItem.code, selectConfigListItem.level)}
-            {idx == selectConfigList.length - 1 ? (
+            {selectConfigListItem.level != 1 ? (
               <span className="delete" onClick={() => deleteList(idx)}>
                 删除
               </span>
