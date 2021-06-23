@@ -1,6 +1,6 @@
 ---
 nav:
-  title: Html5Demo
+  title: canvas
   path: /components
 ---
 

@@ -38,8 +38,8 @@ const SortPanel = React.forwardRef((props: any, ref) => {
   // 排序的回调，当弹窗点击确定时。当弹窗点击确定时需要发送请求
   useImperativeHandle(ref, () => ({
     submit: () => {
-      console.log('====submit selectConfigList===', selectConfigList);
-      return true;
+      // console.log('====submit selectConfigList===', selectConfigList);
+      return selectConfigList;
     },
   }));
   // 联动，更改 下拉选择列表的数据源
@@ -49,7 +49,7 @@ const SortPanel = React.forwardRef((props: any, ref) => {
     level?: number,
   ) => {
     let selectObj = dealConfig(selectConfig, selectList, selectListObj, level);
-    console.log('changeselectConfig setselectListObj', selectObj);
+    // console.log('changeselectConfig setselectListObj', selectObj);
     setselectListObj(selectObj);
   };
 
