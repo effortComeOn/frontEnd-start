@@ -1,9 +1,3 @@
----
-nav:
-  title: Html5Demo
-  path: /components
----
-
 ## React 对外暴露方法
 
 Demo:

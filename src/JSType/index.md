@@ -1,9 +1,3 @@
----
-nav:
-  title: JSType
-  path: /components
----
-
 ## 变量类型
 
 Number, String, Boolean, undefined, null, Object, Symbol

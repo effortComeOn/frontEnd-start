@@ -1,9 +1,3 @@
----
-nav:
-  title: Html5Demo
-  path: /components
----
-
 Demo:
 
 ```tsx

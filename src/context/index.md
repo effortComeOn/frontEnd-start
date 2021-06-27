@@ -1,9 +1,3 @@
----
-nav:
-  title: context
-  path: /components
----
-
 ## Input
 
 Demo:

@@ -1,11 +1,3 @@
----
-nav:
-  title: CSSDemo
-  path: /components
----
-
-## Input
-
 Demo:
 
 ```tsx

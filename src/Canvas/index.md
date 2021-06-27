@@ -1,9 +1,3 @@
----
-nav:
-  title: canvas
-  path: /components
----
-
 ## Canvas
 
 Demo:

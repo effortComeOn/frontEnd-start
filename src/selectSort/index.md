@@ -1,8 +1,3 @@
----
-nav:
-  path: /components
----
-
 ## 排序
 
 Demo:
