@@ -28,14 +28,15 @@ export default () => {
   const onInputChange = (e: any) => {
     e.persist();
     let val = e.target.value;
-    debounce(setStr(val), 100, true);
+    debounce(() => setStr(val), 100, true)();
+    // setStr(val);
   };
 
   useEffect(() => {
     let dom = document.getElementById('text_content1');
     console.log(dom?.offsetHeight);
-    dom?.classList.remove('text');
-    if (dom?.offsetHeight > 50) dom?.classList.add('text');
+    dom && dom.classList.remove('text');
+    if (dom && dom.offsetHeight > 50) dom && dom.classList.add('text');
   }, [str]);
 
   //   固定字符串函数操作
