@@ -24,4 +24,4 @@
 2. 包含浮动元素，可清除浮动
 3. 可阻止元素被浮动元素覆盖。比如添加 overflow:hidden，还可以实现自适应布局。
 
-<code src="./index.tsx" />
+<code src="./demo/bfc.tsx" />

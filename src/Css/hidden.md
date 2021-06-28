@@ -31,3 +31,5 @@
 3. 提升为合成层，不触发重绘，性能较高
 4. 会被子元素继承，子元素无法通过改变 opacity 值来取消隐藏，只会跟随父元素的取消隐藏而展示
 5. transition 支持 opacity
+
+<code src="./index.tsx" />
