@@ -1,0 +1,42 @@
+.content {
+  position: relative;
+  height: 500px;
+  background: black;
+  overflow: hidden;
+}
+
+.item {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: url(./hongbao.jpeg) no-repeat;
+  background-size: auto 60px;
+  animation: drops 1.5s ease-in infinite;
+}
+
+@keyframes drops {
+  from {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(100px, 100vh, -100px);
+  }
+}
+
+.move () {
+  @s: ~`Math.random() `;
+  animation-delay: @s*20 / 10 * 1s;
+}
+
+each(range(50), {
+  .item-@{value} {
+    .move()
+  }
+});
