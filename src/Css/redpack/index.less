@@ -9,9 +9,10 @@
   position: absolute;
   width: 60px;
   height: 60px;
+  opacity: 0;
   background: url(./hongbao.jpeg) no-repeat;
   background-size: auto 60px;
-  animation: drops 1.5s ease-in infinite;
+  animation: drops 2.5s ease-in-out infinite;
 }
 
 @keyframes drops {
@@ -32,7 +33,7 @@
 
 .move () {
   @s: ~`Math.random() `;
-  animation-delay: @s*20 / 10 * 1s;
+  animation-delay: @s*20 / 5 * 1s;
 }
 
 each(range(50), {
