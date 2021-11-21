@@ -34,15 +34,17 @@ const PageCom = () => {
     const enWarnArr = enPassengers.map((p, i) => {
       const hasOnePerson = isHasOneENPassenger(p);
       const enRoomWarnArr: boolean[] = p.map((pItem, index) => {
+        const firstNameWarn = enNamerule.getWarning({
+          value: pItem.ENFirstName || '',
+          canEmpty: hasOnePerson && !pItem?.ENLastName,
+        });
+        const lastNameWarn = enNamerule.getWarning({
+          value: pItem.ENLastName || '',
+          canEmpty: hasOnePerson && !pItem?.ENFirstName,
+        });
         const isCheckPass =
-          enNamerule.getWarning({
-            value: pItem.ENFirstName || '',
-            canEmpty: hasOnePerson && !pItem?.ENLastName,
-          }).length === 0 &&
-          enNamerule.getWarning({
-            value: pItem.ENLastName || '',
-            canEmpty: hasOnePerson && !pItem?.ENFirstName,
-          }).length === 0;
+          lastNameWarn.length === 0 && firstNameWarn.length === 0;
+        enpassengers[i][index].warnText = [lastNameWarn, firstNameWarn];
         enpassengers[i][index].isWarning = !isCheckPass;
         return isCheckPass;
       });

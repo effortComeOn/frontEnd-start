@@ -28,12 +28,12 @@ export const ENName = (props: IENNameProps) => {
     changeRoomCheck,
   } = props;
 
-  const onFocus = (i: number, color: string) => {
+  const onFocus = (i: number) => {
     changeRoomCheck(i);
   };
 
-  const onBlur = (color: string) => {
-    console.log('onBlur');
+  const onBlur = () => {
+    // console.log('onBlur');
   };
 
   const passengerInput = () => {
@@ -48,7 +48,7 @@ export const ENName = (props: IENNameProps) => {
             key={`${i}cnName`}
             isChecked={isChecked}
             guestCount={guestCount}
-            onFocus={(color: string) => onFocus(i, color)}
+            onFocus={() => onFocus(i)}
             onBlur={onBlur}
             onChangeENName={(text, line, isLastName) =>
               onChangeENName(text, i, line, isLastName)

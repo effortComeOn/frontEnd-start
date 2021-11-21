@@ -7,6 +7,7 @@ export interface IPassenger {
   ENLastName: string;
   PassengerID: number;
   isWarning?: boolean;
+  warnText?: string[];
 }
 
 interface IInitData {

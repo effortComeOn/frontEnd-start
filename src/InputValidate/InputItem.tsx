@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { colorStr } from './manager';
 
 export interface IInputItemProps {
-  onFocus: (color: string) => void;
-  onBlur: (color: string) => void;
+  onFocus: () => void;
+  onBlur: (warnText: string) => void;
   isChecked: boolean;
   rule: any;
   value: string;
@@ -29,14 +29,14 @@ export const InputItem = (props: IInputItemProps) => {
 
   const onFocus = () => {
     setFocused(true);
-    props.onFocus('blue');
+    props.onFocus();
   };
 
   const onBlur = () => {
     setFocused(false);
     const warningText = rule.getWarning({ value });
     setWarningText(warningText);
-    props.onBlur(warningText ? 'red' : '#333');
+    props.onBlur(warningText);
   };
 
   const onChangeText = (e: any) => {
@@ -48,7 +48,7 @@ export const InputItem = (props: IInputItemProps) => {
       setFocused(false);
       const warningText = rule.getWarning({ value });
       setWarningText(warningText);
-      props.onBlur(warningText ? 'red' : '#333');
+      props.onBlur(warningText);
     }
   }, [isChecked, canEmpty]);
 

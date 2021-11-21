@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { InputItem } from './InputItem';
 import { enNamerule, IInputProps } from './validate';
 import { IPassenger } from './context';
 import { isHasOneENPassenger } from './manager';
 
 interface IENNameItemProps {
-  onFocus: (color: string) => void;
-  onBlur: (color: string) => void;
+  onFocus: () => void;
+  onBlur: () => void;
   checkCount: number;
   isChecked: boolean;
   guestCount: number;
@@ -16,6 +16,9 @@ interface IENNameItemProps {
 }
 
 export const ENNameItem = (props: IENNameItemProps) => {
+  const [focused, setFocused] = useState(false);
+  const [warnTextArr, setWarnTextArr] = useState<string[][]>([]);
+  const [labelColor, setLabelColor] = useState('#333');
   const {
     isChecked,
     onChangeENName,
@@ -26,6 +29,21 @@ export const ENNameItem = (props: IENNameItemProps) => {
     roomIndex,
     passengers = [],
   } = props;
+
+  useEffect(() => {
+    if (isChecked) {
+      const warnArr: any = passengers.map((p) => p.warnText);
+      console.log('warnArr', warnArr);
+      setWarnTextArr(warnArr);
+    }
+  }, [isChecked]);
+
+  const changeWarnText = (i: number, k: number, text: string) => {
+    const warntextArr = [...warnTextArr];
+    warntextArr[i] = warntextArr[i] ? warntextArr[i] : [];
+    warntextArr[i][k] = text;
+    setWarnTextArr(warntextArr);
+  };
 
   // 当前房间的校验状态
   const isRoomChecked = (): boolean => {
@@ -58,10 +76,20 @@ export const ENNameItem = (props: IENNameItemProps) => {
                 }),
             }}
             value={passengers[i]?.ENLastName || ''}
-            onFocus={onFocus}
-            onBlur={onBlur}
+            onFocus={() => {
+              setFocused(true);
+              onFocus();
+            }}
+            onBlur={(warnText: string) => {
+              onBlur();
+              setFocused(false);
+              changeWarnText(i, 0, warnText);
+            }}
             canEmpty={hasOneEnPerson && !passengers[i]?.ENFirstName}
-            onChangeText={(text) => onChangeENName(text, i, true)}
+            onChangeText={(text) => {
+              setFocused(true);
+              onChangeENName(text, i, true);
+            }}
           />
           <div style={{ padding: '0 4px' }}>|</div>
           <InputItem
@@ -78,14 +106,36 @@ export const ENNameItem = (props: IENNameItemProps) => {
                 }),
             }}
             canEmpty={hasOneEnPerson && !passengers[i]?.ENLastName}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onChangeText={(text) => onChangeENName(text, i, false)}
+            onFocus={() => {
+              setFocused(true);
+              onFocus();
+            }}
+            onBlur={(warnText: string) => {
+              setFocused(false);
+              onBlur();
+              changeWarnText(i, 1, warnText);
+            }}
+            onChangeText={(text) => {
+              setFocused(true);
+              onChangeENName(text, i, false);
+            }}
           />
         </div>,
       );
     }
     return arr;
+  };
+  const labelcolor = () => {
+    if (focused) {
+      return 'blue';
+    } else if (
+      isRoomChecked() ||
+      warnTextArr.some((t) => t.some((warn) => warn.length !== 0))
+    ) {
+      return 'red';
+    } else {
+      return labelColor;
+    }
   };
   return (
     <div className="enname-item">
@@ -96,7 +146,7 @@ export const ENNameItem = (props: IENNameItemProps) => {
       <span
         className="label"
         style={{
-          color: '#333',
+          color: labelcolor(),
           marginRight: '10px',
         }}
       >
