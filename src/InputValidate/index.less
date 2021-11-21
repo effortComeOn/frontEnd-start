@@ -1,0 +1,78 @@
+.room-count {
+  padding: 4px 10px;
+  span {
+    padding: 10px;
+    background-color: #eee;
+    margin: 10px;
+  }
+}
+.input-item {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  position: relative;
+
+  div {
+    box-sizing: border-box;
+  }
+
+  .label {
+    width: 40px;
+    display: inline-block;
+  }
+
+  .input-content {
+    input {
+      padding: 4px 0;
+      outline: 0;
+      border: 0;
+      background-color: transparent;
+    }
+    .warning-text {
+      color: #f00;
+      font-size: 10px;
+    }
+
+    .line {
+      width: 100%;
+      height: 1px;
+      background-color: #333;
+    }
+  }
+}
+
+.is-check-false {
+  // background-color: fade(#f00, 6);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: errorBg 0.5s, errorBg2 1s infinite 0.5s;
+}
+
+@keyframes errorBg {
+  0% {
+    background-color: fade(#f00, 6);
+  }
+  50% {
+    background-color: #fff;
+  }
+  100% {
+    background-color: fade(#f00, 6);
+  }
+}
+
+@keyframes errorBg2 {
+  0% {
+    background-color: fade(#f00, 6);
+  }
+  100% {
+    background-color: fade(#f00, 6);
+  }
+}
+
+.enname-item {
+  display: flex;
+  position: relative;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
