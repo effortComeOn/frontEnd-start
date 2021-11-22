@@ -128,9 +128,11 @@ export const ENNameItem = (props: IENNameItemProps) => {
   const labelcolor = () => {
     if (focused) {
       return 'blue';
+    } else if (isRoomChecked()) {
+      return 'red';
     } else if (
-      isRoomChecked() ||
-      warnTextArr.some((t) => t.some((warn) => warn.length !== 0))
+      warnTextArr.some((t) => t.some((warn) => warn.length !== 0)) &&
+      isChecked
     ) {
       return 'red';
     } else {
