@@ -4,6 +4,7 @@ import { cnNamerule, enNamerule } from './validate';
 import { isHasOneENPassenger } from './manager';
 import { ENName } from './enName';
 import { CNName } from './cnName';
+import { ENPassengerSelect } from './passengerSelect';
 import './index.less';
 
 const PageCom = () => {
@@ -141,6 +142,7 @@ const PageCom = () => {
       ENLastName: enLastName,
       PassengerID: getPassengerId(index, line),
       isWarning: false,
+      warnText: newEnPassengers[index]?.[line]?.warnText,
     } as IPassenger;
     // 修改
     if (passenger && passenger[line]) {
@@ -157,7 +159,6 @@ const PageCom = () => {
       newEnPassengers[index] = newEnPassengers[index] || [];
       newEnPassengers[index][line] = newEnPassneger;
     }
-
     setENPassengers(newEnPassengers);
   };
 
@@ -199,6 +200,8 @@ const PageCom = () => {
         changeRoomCheck={changeCNRoomCheck}
         checkCount={checkCount}
       />
+
+      <ENPassengerSelect onSelect={(item) => setENPassengers([[item]])} />
 
       <ENName
         isChecked={isChecked}

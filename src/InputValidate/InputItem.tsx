@@ -44,13 +44,12 @@ export const InputItem = (props: IInputItemProps) => {
   };
 
   useEffect(() => {
-    if (isChecked || canEmpty) {
+    if (isChecked || canEmpty || value) {
       setFocused(false);
       const warningText = rule.getWarning({ value });
       setWarningText(warningText);
-      props.onBlur(warningText);
     }
-  }, [isChecked, canEmpty]);
+  }, [isChecked, canEmpty, value]);
 
   return (
     <div style={{ position: 'relative' }}>

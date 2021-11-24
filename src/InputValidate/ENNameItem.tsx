@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { InputItem } from './InputItem';
 import { enNamerule, IInputProps } from './validate';
 import { IPassenger } from './context';
@@ -30,16 +30,28 @@ export const ENNameItem = (props: IENNameItemProps) => {
     passengers = [],
   } = props;
 
+  const hasOneEnPerson = useMemo(
+    () => isHasOneENPassenger(passengers),
+    [passengers],
+  );
+
   useEffect(() => {
-    if (isChecked) {
-      const warnArr: any = passengers.map((p) => p.warnText);
-      console.log('warnArr', warnArr);
+    if (isChecked || hasOneEnPerson) {
+      let warnArr: any = passengers.map((p) => p.warnText);
+      warnArr = warnArr.map((warn: string[], i: number) => {
+        if (warn && hasOneEnPerson) {
+          warnArr[i][0] = passengers[i]?.ENFirstName ? warn[0] : '';
+          warnArr[i][1] = passengers[i]?.ENLastName ? warn[1] : '';
+        }
+        return warn;
+      });
+      console.log('warnArr', warnArr, passengers);
       setWarnTextArr(warnArr);
     }
-  }, [isChecked]);
+  }, [isChecked, passengers]);
 
   const changeWarnText = (i: number, k: number, text: string) => {
-    const warntextArr = [...warnTextArr];
+    let warntextArr = [...warnTextArr];
     warntextArr[i] = warntextArr[i] ? warntextArr[i] : [];
     warntextArr[i][k] = text;
     setWarnTextArr(warntextArr);
@@ -51,14 +63,13 @@ export const ENNameItem = (props: IENNameItemProps) => {
       return isChecked;
     }
     const checkArr = passengers?.map((p) => {
-      return isChecked && (!!p?.isWarning || !p);
+      return !!p?.isWarning || !p;
     });
     return checkArr.some((p) => p);
   };
 
   const enNameItemArr = () => {
     const arr = [];
-    const hasOneEnPerson = isHasOneENPassenger(passengers);
     for (let i = 0; i < guestCount; i++) {
       const check = isRoomChecked();
       arr.push(
@@ -130,10 +141,7 @@ export const ENNameItem = (props: IENNameItemProps) => {
       return 'blue';
     } else if (isRoomChecked()) {
       return 'red';
-    } else if (
-      warnTextArr.some((t) => t.some((warn) => warn.length !== 0)) &&
-      isChecked
-    ) {
+    } else if (warnTextArr.some((t) => t?.some((warn) => warn.length !== 0))) {
       return 'red';
     } else {
       return labelColor;
